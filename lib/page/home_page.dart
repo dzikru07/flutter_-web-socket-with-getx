@@ -13,31 +13,36 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Flutter Socket'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text(
+                  'Data From Web Socket :',
+                ),
+                // Obx(() => Text(
+                //       '${mainController.counter}',
+                //       style: Theme.of(context).textTheme.bodyMedium,
+                //     )),
+                StreamBuilder(
+                  stream: mainController.channel.stream,
+                  builder: (context, snapshot) {
+                    return Text(snapshot.hasData ? '${snapshot.data}' : '', style: Theme.of(context).textTheme.bodyLarge,);
+                  },
+                )
+              ],
             ),
-            Obx(() => Text(
-                  '${mainController.counter}',
-                  style: Theme.of(context).textTheme.bodyMedium,
-                )),
-            StreamBuilder(
-              stream: mainController.channel.stream,
-              builder: (context, snapshot) {
-                return Text(snapshot.hasData ? '${snapshot.data}' : '');
-              },
-            )
-          ],
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: mainController.increment,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: mainController.increment,
+      //   tooltip: 'Increment',
+      //   child: const Icon(Icons.add),
+      // ),
     );
   }
 }
